@@ -48,5 +48,20 @@
             ],
             "type": "node"
         },
+
+
+        {
+            "name": "nest",
+            "request": "launch",
+            "runtimeArgs": [
+                "watch",
+                "${workspaceFolder}/src/04. nest/main.ts",
+            ],
+            "runtimeExecutable": "esno",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
     ]
 }
