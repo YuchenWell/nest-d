@@ -11,7 +11,7 @@
             "request": "launch",
             "runtimeArgs": [
                 "watch",
-                "${workspaceFolder}/src/http/index.ts",
+                "${workspaceFolder}/src/01. http/index.ts",
             ],
             "runtimeExecutable": "esno",
             "skipFiles": [
@@ -20,5 +20,33 @@
             "type": "node"
         },
 
+
+        {
+            "name": "express",
+            "request": "launch",
+            "runtimeArgs": [
+                "watch",
+                "${workspaceFolder}/src/02. express/index.ts",
+            ],
+            "runtimeExecutable": "esno",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+
+        {
+            "name": "koa",
+            "request": "launch",
+            "runtimeArgs": [
+                "watch",
+                "${workspaceFolder}/src/03. koa/index.ts",
+            ],
+            "runtimeExecutable": "esno",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
     ]
 }
