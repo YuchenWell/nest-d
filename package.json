@@ -6,7 +6,10 @@
   "scripts": {
     "prestart": "tsc",
     "start": "node dist/04.nest/main.js",
-    "watch": "nodemon --watch src/04.nest --exec yarn start -e ts"
+    "watch": "nodemon --watch src/04.nest --exec yarn start -e ts",
+
+    "start-m": "tsc &&node dist/05.metadata/index.js",
+    "watch-m": "nodemon --watch src/05.metadata --exec yarn start-m -e ts"
   },
   "keywords": [],
   "author": "",

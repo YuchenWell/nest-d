@@ -1,5 +1,11 @@
 import "reflect-metadata";
-import express from "express";
+import * as express from "express";
+
+import { BODY, Body, Controller, CONTROLLER, Route, ROUTE } from "./decorators";
+import { isObservable, of } from "rxjs";
+import { CatDto } from "./dto";
+import { validate, validateOrReject } from "class-validator";
+import { type } from "os";
 
 const app = express();
 
@@ -9,14 +15,11 @@ app.use(express.urlencoded({ extended: false }));
 // parse application/json
 app.use(express.json());
 
-const CONTROLLER = "CONTROLLER";
-const ROUTE = "ROUTE";
-
-@Reflect.metadata(CONTROLLER, "/cats")
+@Controller("/cats")
 class CatsController {
-  @Reflect.metadata(ROUTE, { method: "get", path: "/item" })
-  getCat(req, res, next) {
-    res.send("cat");
+  @Route({ method: "post", path: "/item" })
+  getCat(@Body() body: CatDto) {
+    return of(body);
   }
 
   log() {
@@ -33,16 +36,56 @@ Object.getOwnPropertyNames(Object.getPrototypeOf(catsController))
   })
   .map((prop) => {
     const metadata = Reflect.getMetadata(ROUTE, catsController, prop);
-    console.log(metadata);
 
     app[metadata.method](
       `${controllerPath}${metadata.path}`,
-      (req, res, next) => {
-        return catsController[prop](req, res, next);
+      async (req, res, next) => {
+        const body = req.body;
+        const bodyIndex = Reflect.getMetadata(BODY, catsController, prop);
+
+        const args: any[] = [];
+        args[bodyIndex] = body;
+
+        const argTypes: any[] = Reflect.getMetadata(
+          "design:paramtypes",
+          catsController,
+          prop
+        );
+
+        for (let idx = 0; idx < argTypes.length; idx++) {
+          const Type = argTypes[idx];
+          const instance = new Type();
+
+          const arg = args[idx];
+          for (const key in arg) {
+            instance[key] = arg[key];
+          }
+
+          const errors = await validate(instance);
+
+          if (errors.length > 0) {
+            res.send(errors);
+            return;
+          }
+        }
+
+        let result = catsController[prop](...args);
+
+        if (result instanceof Promise) {
+          result = await result;
+        }
+
+        if (isObservable(result)) {
+          result.subscribe((data) => {
+            res.send(data);
+          });
+        } else {
+          res.send(result);
+        }
       }
     );
   });
 
-app.listen(3003);
+app.listen(3005);
 
-console.log("Listen 3003");
+console.log("Listen 3005");
