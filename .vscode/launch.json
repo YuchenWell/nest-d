@@ -4,14 +4,12 @@
     // 欲了解更多信息，请访问: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
-
         {
             "name": "http",
             "request": "launch",
             "runtimeArgs": [
                 "watch",
-                "${workspaceFolder}/src/01. http/index.ts",
+                "${workspaceFolder}/src/01.http/index.ts",
             ],
             "runtimeExecutable": "esno",
             "skipFiles": [
@@ -26,7 +24,7 @@
             "request": "launch",
             "runtimeArgs": [
                 "watch",
-                "${workspaceFolder}/src/02. express/index.ts",
+                "${workspaceFolder}/src/02.express/index.ts",
             ],
             "runtimeExecutable": "esno",
             "skipFiles": [
@@ -40,7 +38,7 @@
             "request": "launch",
             "runtimeArgs": [
                 "watch",
-                "${workspaceFolder}/src/03. koa/index.ts",
+                "${workspaceFolder}/src/03.koa/index.ts",
             ],
             "runtimeExecutable": "esno",
             "skipFiles": [
@@ -51,7 +49,7 @@
 
 
         {
-            "name": "nest",
+            "name": "nest-error",
             "request": "launch",
             "runtimeArgs": [
                 "watch",
@@ -63,5 +61,21 @@
             ],
             "type": "node"
         },
+
+        {
+          "name": "nest",
+          "request": "launch",
+          "runtimeArgs": [
+            "run-script",
+            "watch"
+          ],
+          "runtimeExecutable": "npm",
+          "skipFiles": [
+            "<node_internals>/**"
+          ],
+          "type": "node"
+        },
+  
+
     ]
 }
